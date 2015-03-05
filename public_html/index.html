@@ -1,20 +1,57 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Binary Heap</title>
+
+    <script>
+        /*
+        Javascript min binary heap data structure to be used in a priority queue.
+
+        All nodes are less than or equal to each of its children.
+
+        Implemented using an array.
+
+        */
+
+        // done as Immediately Invoked Function Expression (IIFE) to hide private members 
+        (function () {
+
+            var _heapArray = []; // array for the min binary tree
+
+            _heapArray.push(1);
+            _heapArray.push(2);
+
+
+            // create public object and expose a method that returns an instance 
+            window.$MinBinaryTree = { createMinBinaryTree: function () { return new $MinBinaryTree(); } } // anonymous object with createMinBinaryTree() method
+
+            function $MinBinaryTree() {
+                this.iterateArray = iterateArray;
+            }
+
+            //A heap could be built by successive insertions. This approach requires O(n log n) time because each insertion takes O(log n) time and there are n elements.
+
+            function iterateArray() {
+                for (var i = 0; i < _heapArray.length; i++) {
+                    document.write(_heapArray[i] + ' ');
+                }
+            }
+
+        }());
+
+
+        var bTree = $MinBinaryTree.createMinBinaryTree();
+        bTree.iterateArray();
+
+    </script>
+
+
+
     </head>
     <body>    
+       
         
         
         
-        
-        <div>TODO write content</div>
     </body>
 </html>
