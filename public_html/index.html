@@ -29,15 +29,50 @@
 
             function remove() {
                 var item = this.heapArray[0];
-                
-                
-        
-        
                 // put the last item on top
                 this.heapArray[0] = this.heapArray.pop();
-                // trickle down top item
+                var temp = this.heapArray[0];
                 
-        
+                var i = 0;
+                
+                // trickle down top item
+                while(1) {
+                    var child1 = 2 * i + 1;
+                    var child2 = 2 * i + 2;
+                    var index;
+                    // get the smaller child
+                    
+                    if (i == (this.heapArray.length - 1)) { // last item 
+                        break;
+                    }
+                    
+                    if (this.heapArray[child1] === undefined) {
+                        index = child2;
+                    }
+                    else if (this.heapArray[child2] === undefined) {
+                        index = child1;
+                    } 
+                    else {
+                        index = (this.heapArray[child1].index < this.heapArray[child2].index) ? child1 : child2;
+                    }
+                    if (index > (this.heapArray.length - 1)) { // no children
+                        break;
+                    }
+                    
+                    // compare to the smaller child
+                    if ( this.heapArray[index].index < temp.index) {
+                        // need to switch up
+                        this.heapArray[i] = this.heapArray[index];
+                        i = index; // designate new parent
+                    }
+                    else {
+                        break;
+                    }
+                }
+                // put it where it belongs
+                this.heapArray[i] = temp;
+                
+                // return popped item
                 return item;
             }
 
