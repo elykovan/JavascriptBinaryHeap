@@ -16,24 +16,68 @@
         // done as Immediately Invoked Function Expression (IIFE) to hide private members 
         (function () {
 
-            var _heapArray = []; // array for the min binary tree
-
-            _heapArray.push(1);
-            _heapArray.push(2);
-
-
             // create public object and expose a method that returns an instance 
             window.$MinBinaryTree = { createMinBinaryTree: function () { return new $MinBinaryTree(); } } // anonymous object with createMinBinaryTree() method
 
             function $MinBinaryTree() {
                 this.iterateArray = iterateArray;
+                this.insert = insert;
+                this.remove = remove;
+                this.heapArray = []; // array for the min binary tree
             }
 
-            //A heap could be built by successive insertions. This approach requires O(n log n) time because each insertion takes O(log n) time and there are n elements.
 
+            function remove() {
+                var item = this.heapArray[0];
+                
+                
+        
+        
+                // put the last item on top
+                this.heapArray[0] = this.heapArray.pop();
+                // trickle down top item
+                
+        
+                return item;
+            }
+
+            function insert(obj) {
+                // obj: { index: <integer>, data: <data> }
+                //alert(obj.index);    
+                // access parent by floor((i - 1)/2)
+                //alert(_heapArray.length);    
+
+                var childIndex = this.heapArray.push(obj) - 1;
+
+                while(1) {
+                    var parentIndex = Math.floor( Math.abs((childIndex - 1)/2) );
+//                    document.write('<br> Parent:' + parentIndex);
+                    // if parent > current; need to switch
+                    //document.write(' <br>Child: ' + obj.index + ' Parent: ' + this.heapArray[parentIndex].index)
+
+                    if (this.heapArray[parentIndex].index > obj.index) {
+                        // parent switches places with a child
+                        this.heapArray[childIndex] = this.heapArray[parentIndex];
+                        childIndex = parentIndex;
+                        //document.write('<br> Switch.');
+                        if ( parentIndex == 0) break;
+
+                    }   
+                    else {
+                        break;
+                    }
+                }
+                // finally put new item where it belongs
+                this.heapArray[childIndex] = obj;
+                document.write('<br>');    
+                bTree.iterateArray();
+
+            }
+        
+            //A heap could be built by successive insertions. This approach requires O(n log n) time because each insertion takes O(log n) time and there are n elements.
             function iterateArray() {
-                for (var i = 0; i < _heapArray.length; i++) {
-                    document.write(_heapArray[i] + ' ');
+                for (var i = 0; i < this.heapArray.length; i++) {
+                    document.write(this.heapArray[i].index + ' ');
                 }
             }
 
@@ -41,12 +85,21 @@
 
 
         var bTree = $MinBinaryTree.createMinBinaryTree();
-        bTree.iterateArray();
+        bTree.insert({index: 8, data: "some data"});
+        bTree.insert({index: 3, data: "some data"});
+        bTree.insert({index: 6, data: "some data"});
+        bTree.insert({index: 4, data: "some data"});
+        bTree.insert({index: 1, data: "some data"});
+        bTree.insert({index: 2, data: "some data"});
+        
+        
+        document.write('<br>Removed: ' + bTree.remove().index);
+                document.write('<br>');    
+                bTree.iterateArray();
 
     </script>
 
-
-
+  
     </head>
     <body>    
        
