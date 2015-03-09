@@ -32,36 +32,30 @@
                 var item = this.heapArray[0];
                 // copy top item into a temp variable and remove it from the bottom
                 var temp = this.heapArray.pop();
-                // put the last item on top 
-//                this.heapArray[0] = temp;
-                
-                var i = 0;
+               
+                var i = 0; // first item
+                var smallerChild = 0;
                 
                 // trickle down the top item
-                while(1) {
+                // loop while not last node and while parent bigger than smaller child
+                while(i < (this.heapArray.length - 1)) {
                     var child1 = 2 * i + 1;
                     var child2 = 2 * i + 2;
-                    var smallerChild;
-                    // get the smaller child
                     
-                    if (i === (this.heapArray.length - 1)) { // last item 
+                    if (this.heapArray[child2] === undefined && this.heapArray[child1] === undefined) {
                         break;
-                    }                    
-                    
-                    if (this.heapArray[child1] === undefined) {
-                        smallerChild = child2;
                     }
                     else if (this.heapArray[child2] === undefined) {
                         smallerChild = child1;
-                    } 
-                    else {
+                    }
+                    else if (this.heapArray[child1] === undefined) {
+                        smallerChild = child2;
+                    }
+                    else { 
                         smallerChild = (this.heapArray[child1].index < this.heapArray[child2].index) ? child1 : child2;
-                    }
-                    if (smallerChild > (this.heapArray.length - 1)) { // no children
-                        break;
-                    }
+                    } 
                     
-                    // compare to the smaller child
+                    // if current node is bigger than the smaller child, smaller child gets shifted up
                     if ( this.heapArray[smallerChild].index < temp.index) {
                         // need to shift up
                         this.heapArray[i] = this.heapArray[smallerChild];
@@ -70,9 +64,12 @@
                     else {
                         break;
                     }
+                } // end while
+                
+                if (this.heapArray.length > 0) {
+                    // put it where it belongs
+                    this.heapArray[i] = temp;
                 }
-                // put it where it belongs
-                this.heapArray[i] = temp;
                 
                 // return popped item
                 return item;
@@ -112,15 +109,10 @@
         
         var bTree = $MinBinaryTree.createMinBinaryTree();
 
-        bTree.insert({index: 8, data: "some data"});
-
-        document.write('<br>Removed: ' + bTree.remove().index);
-        document.write('<br>');    
-        bTree.iterateArray();
 
     
-        bTree.insert({index: 3, data: "some data"});
         bTree.insert({index: 6, data: "some data"});
+        bTree.insert({index: 3, data: "some data"});
         bTree.insert({index: 4, data: "some data"});
         bTree.insert({index: 1, data: "some data"});
         bTree.insert({index: 2, data: "some data"});
@@ -129,6 +121,37 @@
         document.write('<br>Removed: ' + bTree.remove().index);
         document.write('<br>');    
         bTree.iterateArray();
+        
+        bTree.insert({index: 1, data: "some data"});
+        
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        bTree.insert({index: 4, data: "some data"});
+        bTree.insert({index: 1, data: "some data"});
+        bTree.insert({index: 2, data: "some data"});
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+        
 
     </script>
 
