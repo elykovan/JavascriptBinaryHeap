@@ -6,11 +6,8 @@
     <script>
         /*
         Javascript min binary heap data structure to be used in a priority queue.
-
         All nodes are less than or equal to each of its children.
-
         Implemented using an array.
-
         */
 
         // done as Immediately Invoked Function Expression (IIFE) to hide private members 
@@ -26,44 +23,49 @@
                 this.heapArray = []; // array for the min binary tree
             }
 
-
+            // remove item from the top and copy last item into a temp variable
+            // copy last item to the top and remove the last item from array
+            // then iterate, find children at each level and shift smaller child up
+            // BUG: if there is only one item, it puts it right back
             function remove() {
+                // copy the top item to be returned
                 var item = this.heapArray[0];
-                // put the last item on top
-                this.heapArray[0] = this.heapArray.pop();
-                var temp = this.heapArray[0];
+                // copy top item into a temp variable and remove it from the bottom
+                var temp = this.heapArray.pop();
+                // put the last item on top 
+//                this.heapArray[0] = temp;
                 
                 var i = 0;
                 
-                // trickle down top item
+                // trickle down the top item
                 while(1) {
                     var child1 = 2 * i + 1;
                     var child2 = 2 * i + 2;
-                    var index;
+                    var smallerChild;
                     // get the smaller child
                     
-                    if (i == (this.heapArray.length - 1)) { // last item 
+                    if (i === (this.heapArray.length - 1)) { // last item 
                         break;
-                    }
+                    }                    
                     
                     if (this.heapArray[child1] === undefined) {
-                        index = child2;
+                        smallerChild = child2;
                     }
                     else if (this.heapArray[child2] === undefined) {
-                        index = child1;
+                        smallerChild = child1;
                     } 
                     else {
-                        index = (this.heapArray[child1].index < this.heapArray[child2].index) ? child1 : child2;
+                        smallerChild = (this.heapArray[child1].index < this.heapArray[child2].index) ? child1 : child2;
                     }
-                    if (index > (this.heapArray.length - 1)) { // no children
+                    if (smallerChild > (this.heapArray.length - 1)) { // no children
                         break;
                     }
                     
                     // compare to the smaller child
-                    if ( this.heapArray[index].index < temp.index) {
-                        // need to switch up
-                        this.heapArray[i] = this.heapArray[index];
-                        i = index; // designate new parent
+                    if ( this.heapArray[smallerChild].index < temp.index) {
+                        // need to shift up
+                        this.heapArray[i] = this.heapArray[smallerChild];
+                        i = smallerChild; // designate new parent
                     }
                     else {
                         break;
@@ -76,31 +78,20 @@
                 return item;
             }
 
+
+            // add item to the bottom of the tree (last item in the array).
+            // bubble item up comparing it to the parent(s)
             function insert(obj) {
-                // obj: { index: <integer>, data: <data> }
-                //alert(obj.index);    
-                // access parent by floor((i - 1)/2)
-                //alert(_heapArray.length);    
-
+                // add new item to the bottom of the tree and get its index in the array
                 var childIndex = this.heapArray.push(obj) - 1;
-
-                while(1) {
-                    var parentIndex = Math.floor( Math.abs((childIndex - 1)/2) );
-//                    document.write('<br> Parent:' + parentIndex);
-                    // if parent > current; need to switch
-                    //document.write(' <br>Child: ' + obj.index + ' Parent: ' + this.heapArray[parentIndex].index)
-
-                    if (this.heapArray[parentIndex].index > obj.index) {
-                        // parent switches places with a child
-                        this.heapArray[childIndex] = this.heapArray[parentIndex];
-                        childIndex = parentIndex;
-                        //document.write('<br> Switch.');
-                        if ( parentIndex == 0) break;
-
-                    }   
-                    else {
-                        break;
-                    }
+                // find index of the parent
+                var parentIndex = Math.floor( Math.abs((childIndex - 1)/2) );
+ 
+                while(childIndex > 0 && this.heapArray[parentIndex].index > obj.index) { // do until either a child reaches the top or parent is <= new item
+                    // shift parent down one level
+                    this.heapArray[childIndex] = this.heapArray[parentIndex];
+                    childIndex = parentIndex;
+                    parentIndex = Math.floor( Math.abs((childIndex - 1)/2) );
                 }
                 // finally put new item where it belongs
                 this.heapArray[childIndex] = obj;
@@ -117,10 +108,17 @@
             }
 
         }());
-
-
+        
+        
         var bTree = $MinBinaryTree.createMinBinaryTree();
+
         bTree.insert({index: 8, data: "some data"});
+
+        document.write('<br>Removed: ' + bTree.remove().index);
+        document.write('<br>');    
+        bTree.iterateArray();
+
+    
         bTree.insert({index: 3, data: "some data"});
         bTree.insert({index: 6, data: "some data"});
         bTree.insert({index: 4, data: "some data"});
@@ -129,8 +127,8 @@
         
         
         document.write('<br>Removed: ' + bTree.remove().index);
-                document.write('<br>');    
-                bTree.iterateArray();
+        document.write('<br>');    
+        bTree.iterateArray();
 
     </script>
 
