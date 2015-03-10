@@ -5,7 +5,7 @@
 
     <script>
         /*
-        Javascript min binary heap data structure to be used in a priority queue.
+        Javascript MIN binary heap data structure to be used in a priority queue.
         All nodes are less than or equal to each of its children.
         Implemented using an array.
         */
@@ -24,9 +24,8 @@
             }
 
             // remove item from the top and copy last item into a temp variable
-            // copy last item to the top and remove the last item from array
+            // remove the last item from array
             // then iterate, find children at each level and shift smaller child up
-            // BUG: if there is only one item, it puts it right back
             function remove() {
                 // copy the top item to be returned
                 var item = this.heapArray[0];
@@ -54,16 +53,14 @@
                     else { 
                         smallerChild = (this.heapArray[child1].index < this.heapArray[child2].index) ? child1 : child2;
                     } 
-                    
-                    // if current node is bigger than the smaller child, smaller child gets shifted up
-                    if ( this.heapArray[smallerChild].index < temp.index) {
-                        // need to shift up
-                        this.heapArray[i] = this.heapArray[smallerChild];
-                        i = smallerChild; // designate new parent
-                    }
-                    else {
+                    // break if current node is smaller than or equal to the smaller child
+                    if ( this.heapArray[smallerChild].index >= temp.index) {
                         break;
                     }
+           
+                    // current node is bigger than the smaller child, so, smaller child gets shifted up
+                    this.heapArray[i] = this.heapArray[smallerChild];
+                    i = smallerChild; // designate new parent
                 } // end while
                 
                 if (this.heapArray.length > 0) {
@@ -92,9 +89,6 @@
                 }
                 // finally put new item where it belongs
                 this.heapArray[childIndex] = obj;
-                document.write('<br>');    
-                bTree.iterateArray();
-
             }
         
             //A heap could be built by successive insertions. This approach requires O(n log n) time because each insertion takes O(log n) time and there are n elements.
@@ -109,14 +103,12 @@
         
         var bTree = $MinBinaryTree.createMinBinaryTree();
 
-
-    
+   
         bTree.insert({index: 6, data: "some data"});
         bTree.insert({index: 3, data: "some data"});
         bTree.insert({index: 4, data: "some data"});
         bTree.insert({index: 1, data: "some data"});
         bTree.insert({index: 2, data: "some data"});
-        
         
         document.write('<br>Removed: ' + bTree.remove().index);
         document.write('<br>');    
